@@ -10,7 +10,7 @@ public class CuentaB {
  @GeneratedValue(strategy = GenerationType.IDENTITY)
  private Long id;
 
- private BigDecimal saldo;
+ private double saldo;
 
  @ManyToOne
  @JoinColumn(name = "cliente_b_id")
@@ -26,11 +26,11 @@ public class CuentaB {
      this.id = id;
  }
 
- public BigDecimal getSaldo() {
+ public double getSaldo() {
      return saldo;
  }
 
- public void setSaldo(BigDecimal saldo) {
+ public void setSaldo(double saldo) {
      this.saldo = saldo;
  }
 
