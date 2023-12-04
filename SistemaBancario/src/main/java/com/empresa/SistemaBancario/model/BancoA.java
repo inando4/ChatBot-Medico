@@ -1,18 +1,21 @@
 package com.empresa.SistemaBancario.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
-public class Banco {
+@Table(name = "banco_a")
+public class BancoA {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String nombre;
 
-    // Getters y Setters
+    @OneToMany(mappedBy = "bancoA", cascade = CascadeType.ALL)
+    private List<ClienteA> clientesA;
+
+    // Getters y setters
 
     public Long getId() {
         return id;
@@ -29,4 +32,13 @@ public class Banco {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    public List<ClienteA> getClientesA() {
+        return clientesA;
+    }
+
+    public void setClientesA(List<ClienteA> clientesA) {
+        this.clientesA = clientesA;
+    }
 }
+
