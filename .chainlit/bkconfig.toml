@@ -31,11 +31,11 @@ multi_modal = true
 [features.speech_to_text]
     enabled = false
     # See all languages here https://github.com/JamesBrill/react-speech-recognition/blob/HEAD/docs/API.md#language-string
-    # language = "es-PE"
+    # language = "en-US"
 
 [UI]
 # Name of the app and chatbot.
-name = "ChatMed"
+name = "Chatbot"
 
 # Show the readme while the conversation is empty.
 show_readme_as_default = true
@@ -71,13 +71,13 @@ hide_cot = false
 
 # Override default MUI dark theme. (Check theme.ts)
 [UI.theme.dark]
-    #background = "#FFFFFF"
-    #paper = "#F2F2F2"
+    #background = "#FAFAFA"
+    #paper = "#FFFFFF"
 
     [UI.theme.dark.primary]
-        #main = "#3D8B75"
-        #dark = "#26664A"
-        #light = "#D1EDE1"
+        #main = "#F80061"
+        #dark = "#980039"
+        #light = "#FFE7EB"
 
 
 [meta]

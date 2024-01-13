@@ -5,8 +5,10 @@ from langchain.vectorstores import FAISS
 from langchain.llms import CTransformers
 from langchain.chains import RetrievalQA
 import chainlit as cl
+from googletrans import Translator
 
 DB_FAISS_PATH = 'vectorstore/db_faiss'
+translator = Translator()
 
 custom_prompt_template = """Use the following pieces of information to answer the user's question.
 If you don't know the answer, just say that you don't know, don't try to make up an answer.
@@ -67,22 +69,30 @@ def final_result(query):
 #chainlit code
 @cl.on_chat_start
 async def start():
+
+   
     chain = qa_bot()
-    msg = cl.Message(content="Starting the bot...")
+    msg = cl.Message(content="Iniciando el bot...")
     await msg.send()
-    msg.content = "Hi, Welcome to Medical Bot. What is your query?"
+    msg.content = "Hola, Bienvenido al Chatbot medico de prueba. ¿Cuál es tu consulta?"
     await msg.update()
 
     cl.user_session.set("chain", chain)
 
 @cl.on_message
 async def main(message: cl.Message):
+      # Traducir la consulta del usuario al inglés
+    translated_query = translator.translate(message.content, dest='en').text
+       #frase predeterminada
+    phrase_pdt=".also i need   ICD codes for each one for the doctor. "
+    
+    user_input=phrase_pdt + translated_query
     chain = cl.user_session.get("chain") 
     cb = cl.AsyncLangchainCallbackHandler(
         stream_final_answer=True, answer_prefix_tokens=["FINAL", "ANSWER"]
     )
     cb.answer_reached = True
-    res = await chain.acall(message.content, callbacks=[cb])
+    res = await chain.acall(user_input, callbacks=[cb])
     answer = res["result"]
     sources = res["source_documents"]
 
@@ -91,5 +101,9 @@ async def main(message: cl.Message):
     else:
         answer += "\nNo sources found"
 
-    await cl.Message(content=answer).send()
+    #await cl.Message(content=answer).send()
+    # Traducir la respuesta del bot al español antes de enviarla
+    translated_answer = translator.translate(answer, dest='es').text
+
+    await cl.Message(content=translated_answer).send()
 
